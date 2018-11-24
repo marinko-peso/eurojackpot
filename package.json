@@ -1,0 +1,27 @@
+{
+  "name": "eurojackpot",
+  "version": "0.0.0",
+  "description": "Check were your numbers a winner",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marinko-peso/eurojackpot.git"
+  },
+  "keywords": [
+    "eurojackpot",
+    "winner",
+    "win",
+    "money",
+    "check",
+    "status"
+  ],
+  "author": "Marinko Peso <marinko.peso@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marinko-peso/eurojackpot/issues"
+  },
+  "homepage": "https://github.com/marinko-peso/eurojackpot#readme"
+}
