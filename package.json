@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "description": "Check were your numbers a winner",
   "main": "src/index.js",
+  "bin": "cli.js",
   "scripts": {
+    "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,8 +28,19 @@
   "homepage": "https://github.com/marinko-peso/eurojackpot#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "request": "^2.88.0",
-    "request-promise": "^4.2.2"
+    "ora": "^3.0.0",
+    "request": "^2.88.0"
   },
-  "resultsUrl": "https://www.eurojackpot.org/en/results/"
+  "devDependencies": {
+    "eslint": "^5.9.0",
+    "eslint-config-semistandard": "^13.0.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
+  },
+  "config": {
+    "resultsUrl": "https://www.eurojackpot.org/en/results/"
+  }
 }
