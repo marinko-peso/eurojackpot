@@ -10,8 +10,8 @@ function getNumbers() {
   return httpGet(config.resultsUrl)
     .then(resp => {
       const $ = cheerio.load(resp.body);
-      const $results = $('#results').first().find('li');
-      return $results.map((_, el) => getNumber($(el))).get();
+      const $numbers = $('#results').first().find('li');
+      return $numbers.map((_, el) => getNumber($(el))).get();
     }, () => []);
 }
 
