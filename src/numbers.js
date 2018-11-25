@@ -14,13 +14,9 @@ function getNumbersFromScrapping() {
   })
   .then(htmlString => {
     const $ = cheerio.load(htmlString);
-    // TODO: change to map.
+    const getNum = el => parseInt($(el).text());
     const numbers = [];
-    $('#results').first().find('li').each((index, element) => {
-      numbers.push(
-        parseInt($(element).text())
-      );
-    });
+    $('#results').first().find('li').each( (i, el) => numbers.push(getNum(el)) );
     return numbers;
   })
   .catch(err => {
