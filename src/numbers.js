@@ -40,17 +40,12 @@ function getNumbersFromApi() {
   })
   .then(d => {
     const data = JSON.parse(d).last;
-    const numbers = [];
-    numbers.push(...data.numbers);
-    numbers.push(...data.euroNumbers);
-    return numbers;
+    return [...data.numbers, ...data.euroNumbers];
   })
   .catch(err => {
     return [];
   });
 }
-
-getNumbersFromApi();
 
 
 module.exports = { getNumbersFromScrapping, getNumbersFromApi };

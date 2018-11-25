@@ -1,3 +1,4 @@
-const { getNumbers } = require('./numbers');
+const { getNumbersFromApi } = require('./numbers');
 
-getNumbers().then(d => console.log(d));
+
+getNumbersFromApi().then(d => console.log(d));
