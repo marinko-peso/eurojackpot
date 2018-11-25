@@ -28,5 +28,5 @@ const cli = meow(meowText, meowFlags);
 console.log(cli.input);
 console.log(cli.flags);
 
-const { test2 } = require('./');
-test2();
+const { checkNumbersForWin } = require('./');
+checkNumbersForWin();
