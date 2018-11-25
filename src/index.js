@@ -5,6 +5,15 @@ const { getNumbersFromApi } = require('./numbers');
 const numbersValid = it => it.length === 7;
 
 
+function getMatches(arr1, arr2) {
+  let matches = 0;
+  arr1.forEach(num => {
+    if (arr2.indexOf(num) !== -1) matches += 1;
+  });
+  return matches;
+}
+
+
 /**
  * Numbers are winners only if all of them match.
  */
@@ -16,19 +25,13 @@ function checkNumbersForWin() {
     }
 
     const myNumbers = [22, 17, 31, 28, 46, 10, 5];
-    const regularNumbers = myNumbers.slice(0, 5);
-    const extraNumbers = myNumbers.slice(5, 7);
 
-    let status = true;
-    const regularReducer = (acc, current) => winningNumbers.slice(0, 5).indexOf(current) !== -1 && acc;
-    const extraReducer = (acc, current) => winningNumbers.slice(5, 7).indexOf(current) !== -1 && acc;
+    const regularMatches = getMatches(myNumbers.slice(0, 5), winningNumbers.slice(0, 5));
+    const extraMatches = getMatches(myNumbers.slice(5, 7), winningNumbers.slice(5, 7));
+    const someWin = false;
+    const bigWin = regularMatches === 5 && extraMatches === 2;
 
-    status = regularNumbers.reduce(regularReducer, status);
-    status = extraNumbers.reduce(extraReducer, status);
-
-    console.log(status);
-
-    return status;
+    return { regularMatches, extraMatches, someWin, bigWin };
   });
 }
 
