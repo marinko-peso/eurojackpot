@@ -12,7 +12,7 @@ function getNumbers() {
       const $ = cheerio.load(resp.body);
       const $numbers = $('#results').first().find('li');
       return $numbers.map((_, el) => getNumber($(el))).get();
-    }, () => []);
+    });
 }
 
 module.exports = { getNumbers };
