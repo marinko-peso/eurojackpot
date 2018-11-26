@@ -56,5 +56,10 @@ checkNumbersForWin().then(d => {
     return;
   }
 
-  console.log(d);
+  if (!d.someWin)
+    console.log('You have no winnings this time 😢. Better luck in the future!');
+  else if (d.bigWin)
+    console.log('YOU HAVE WON THE JACKPOT! 👏');
+  else
+    console.log('You have a winning! 👍  Combination: %i + %i', d.regularMatches, d.extraMatches);
 });
