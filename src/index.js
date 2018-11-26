@@ -1,4 +1,8 @@
+const ConfigStore = require('configstore');
 const { getNumbersFromApi } = require('./numbers');
+const pkg = require('../package.json');
+
+const userConfig = new ConfigStore(pkg.name, { numbers: [] });
 
 
 // TODO: Later make sure regulars are between 0 and 100 and extra between 0 and 10.
@@ -26,7 +30,11 @@ function checkNumbersForWin() {
       return false;
     }
 
-    const myNumbers = [22, 17, 31, 28, 46, 10, 5];
+    const myNumbers = userConfig.get('numbers');
+    if (!numbersValid(myNumbers)) {
+      console.error('Please specify your valid lottery numbers using the --numbers option.')
+      return false;
+    }
 
     const regularMatches = getMatches(myNumbers.slice(0, 5), winningNumbers.slice(0, 5));
     const extraMatches = getMatches(myNumbers.slice(5, 7), winningNumbers.slice(5, 7));
@@ -41,4 +49,14 @@ function checkNumbersForWin() {
 }
 
 
-module.exports = { checkNumbersForWin };
+/**
+ * Save user selected numbers to config for later usage.
+ * @param {Array} numbers
+ */
+function saveUserNumbers(numbers) {
+  userConfig.set({ numbers });
+}
+
+
+
+module.exports = { checkNumbersForWin, saveUserNumbers };

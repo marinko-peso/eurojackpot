@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 const rp = require('request-promise');
-const appConfig = require('../package.json');
+const pkg = require('../package.json');
 
 
 /**
@@ -10,7 +10,7 @@ const appConfig = require('../package.json');
 function getNumbersFromScrapping() {
   return rp({
     method: 'GET',
-    url: appConfig.config.scrapUrl
+    url: pkg.config.scrapUrl
   })
   .then(htmlString => {
     const $ = cheerio.load(htmlString);
@@ -32,7 +32,7 @@ function getNumbersFromScrapping() {
 function getNumbersFromApi() {
   return rp({
     method: 'GET',
-    url: appConfig.config.apiUrl
+    url: pkg.config.apiUrl
   })
   .then(d => {
     const data = JSON.parse(d).last;
