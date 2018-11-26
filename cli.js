@@ -2,6 +2,7 @@
 'use strict';
 
 const meow = require('meow');
+const { checkNumbersForWin } = require('./');
 
 
 const meowText = `
@@ -25,8 +26,9 @@ const meowFlags = {
 };
 
 const cli = meow(meowText, meowFlags);
-console.log(cli.input);
-console.log(cli.flags);
+// console.log(cli.input);
+// console.log(cli.flags);
 
-const { checkNumbersForWin } = require('./');
-checkNumbersForWin();
+checkNumbersForWin().then(winData => {
+  console.log(winData);
+});

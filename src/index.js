@@ -18,7 +18,9 @@ function getMatches(arr1, arr2) {
  * Numbers are winners only if all of them match.
  */
 function checkNumbersForWin() {
-  getNumbersFromApi().then(winningNumbers => {
+  return getNumbersFromApi()
+  .then(winningNumbers => {
+    // Getting winning numbers resulted in invalid, cancelling...
     if (!numbersValid(winningNumbers)) {
       console.error('Problem with fetching lottery winning numbers...')
       return false;
@@ -28,7 +30,10 @@ function checkNumbersForWin() {
 
     const regularMatches = getMatches(myNumbers.slice(0, 5), winningNumbers.slice(0, 5));
     const extraMatches = getMatches(myNumbers.slice(5, 7), winningNumbers.slice(5, 7));
-    const someWin = false;
+
+    // To win at least something you have to have some of the following: 2+1, 1+2, 3+0.
+    const someWin = (regularMatches + extraMatches) >= 3;
+    // Hitting all numbers wins the jackpot!
     const bigWin = regularMatches === 5 && extraMatches === 2;
 
     return { regularMatches, extraMatches, someWin, bigWin };
