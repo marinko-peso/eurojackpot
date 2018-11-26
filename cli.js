@@ -2,10 +2,13 @@
 'use strict';
 
 const meow = require('meow');
-const { checkNumbersForWin, saveUserNumbers } = require('./');
+const { checkNumbersForWin, saveUserNumbers, numbersValid } = require('./');
 
 
-const meowText = `
+/**
+ * Define cli help text and params.
+ */
+const helpText = `
 Usage:
   $ eurojackpot <options>
 
@@ -16,22 +19,42 @@ Examples:
   $ eurojackpot
   $ eurojackpot --numbers 12,15,20,30,34,4,5
 `;
-
-const meowFlags = {
+const flags = {
   numbers: {
     type: 'string',
     alias: 'n',
     default: ''
   }
 };
-
-const cli = meow(meowText, meowFlags);
-// console.log(cli.input);
-// console.log(cli.flags);
-
-saveUserNumbers([22, 17, 31, 28, 46, 10, 5]);
+const cli = meow(helpText, { flags });
 
 
-checkNumbersForWin().then(winData => {
-  console.log(winData);
+/**
+ * If user sent numbers make sure to validate them and store.
+ * We don't run numbers check at this point.
+ */
+const numbersString = cli.flags.numbers;
+if (cli.flags.numbers) {
+  const userNumbers = numbersString.split(',').map(x => parseInt(x));
+  if (!numbersValid(userNumbers)) {
+    console.log('Your numbers are INVALID, please enter all 7 numbers, extras last, separated by comma: 1,2,3,4,5,6,7');
+  } else {
+    saveUserNumbers(userNumbers);
+    console.log('Number succcessfully saved. Check you winnings by running: eurojackpot')
+  }
+  return true;
+}
+
+
+/**
+ * Check did user win with his stored numbers.
+ * First we need to make sure did he store any numbers and if not tell him to specify.
+ */
+checkNumbersForWin().then(d => {
+  if (!d.userNumbersDefined) {
+    console.log('Please first save your numbers to check against. Use `eurojackpot --help` for more information.');
+    return;
+  }
+
+  console.log(d);
 });

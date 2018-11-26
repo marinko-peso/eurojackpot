@@ -2,13 +2,23 @@ const ConfigStore = require('configstore');
 const { getNumbersFromApi } = require('./numbers');
 const pkg = require('../package.json');
 
-const userConfig = new ConfigStore(pkg.name, { numbers: [] });
+const userConfig = new ConfigStore(pkg.name);
 
 
-// TODO: Later make sure regulars are between 0 and 100 and extra between 0 and 10.
-const numbersValid = it => it.length === 7;
+/**
+ * TODO: Later make sure regulars are between 0 and 100 and extra between 0 and 10.
+ * @param {Array} n
+ */
+function numbersValid(n) {
+  return n.length === 7;
+}
 
 
+/**
+ * Check how many matches exist between arrays sent.
+ * @param {Array} arr1
+ * @param {Array} arr2
+ */
 function getMatches(arr1, arr2) {
   let matches = 0;
   arr1.forEach(num => {
@@ -30,11 +40,13 @@ function checkNumbersForWin() {
       return false;
     }
 
+    // If user numbers are not defined at this point, no action to do.
     const myNumbers = userConfig.get('numbers');
-    if (!numbersValid(myNumbers)) {
-      console.error('Please specify your valid lottery numbers using the --numbers option.')
-      return false;
+    let userNumbersDefined = false;
+    if (!myNumbers || !myNumbers.length) {
+      return { userNumbersDefined };
     }
+    userNumbersDefined = true;
 
     const regularMatches = getMatches(myNumbers.slice(0, 5), winningNumbers.slice(0, 5));
     const extraMatches = getMatches(myNumbers.slice(5, 7), winningNumbers.slice(5, 7));
@@ -44,7 +56,13 @@ function checkNumbersForWin() {
     // Hitting all numbers wins the jackpot!
     const bigWin = regularMatches === 5 && extraMatches === 2;
 
-    return { regularMatches, extraMatches, someWin, bigWin };
+    return {
+      regularMatches,
+      extraMatches,
+      someWin,
+      bigWin,
+      userNumbersDefined
+    };
   });
 }
 
@@ -58,5 +76,4 @@ function saveUserNumbers(numbers) {
 }
 
 
-
-module.exports = { checkNumbersForWin, saveUserNumbers };
+module.exports = { checkNumbersForWin, saveUserNumbers, numbersValid };
