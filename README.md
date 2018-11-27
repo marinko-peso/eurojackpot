@@ -1,10 +1,10 @@
 # eurojackpot
-:moneybag: Check were your numbers a winner
+:moneybag: Check were your numbers a winner. Store the numbers and check them each time against the latest winnings. 
 
 
 ## Installation
 
-In progress...
+```npm i eurojackpot```
 
 
 ## Usage
