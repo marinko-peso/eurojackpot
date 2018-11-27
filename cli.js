@@ -4,7 +4,6 @@
 const meow = require('meow');
 const { checkNumbersForWin, saveUserNumbers, numbersValid } = require('./');
 
-
 /**
  * Define cli help text and params.
  */
@@ -28,7 +27,6 @@ const flags = {
 };
 const cli = meow(helpText, { flags });
 
-
 /**
  * If user sent numbers make sure to validate them and store.
  * We don't run numbers check at this point.
@@ -40,26 +38,25 @@ if (cli.flags.numbers) {
     console.log('Your numbers are INVALID, please enter all 7 numbers, extras last, separated by comma: 1,2,3,4,5,6,7');
   } else {
     saveUserNumbers(userNumbers);
-    console.log('Number succcessfully saved. Check you winnings by running: eurojackpot')
+    console.log('Number succcessfully saved. Check you winnings by running: eurojackpot');
   }
-  return true;
+} else {
+  /**
+   * Check did user win with his stored numbers.
+   * First we need to make sure did he store any numbers and if not tell him to specify.
+   */
+  checkNumbersForWin().then(d => {
+    if (!d.userNumbersDefined) {
+      console.log('Please first save your numbers to check against. Use `eurojackpot --help` for more information.');
+      return;
+    }
+
+    if (!d.someWin) {
+      console.log('You have no winnings this time 😢. Better luck in the future!');
+    } else if (d.bigWin) {
+      console.log('YOU HAVE WON THE JACKPOT! 👏');
+    } else {
+      console.log('You have a winning! 👍  Combination: %i + %i', d.regularMatches, d.extraMatches);
+    }
+  });
 }
-
-
-/**
- * Check did user win with his stored numbers.
- * First we need to make sure did he store any numbers and if not tell him to specify.
- */
-checkNumbersForWin().then(d => {
-  if (!d.userNumbersDefined) {
-    console.log('Please first save your numbers to check against. Use `eurojackpot --help` for more information.');
-    return;
-  }
-
-  if (!d.someWin)
-    console.log('You have no winnings this time 😢. Better luck in the future!');
-  else if (d.bigWin)
-    console.log('YOU HAVE WON THE JACKPOT! 👏');
-  else
-    console.log('You have a winning! 👍  Combination: %i + %i', d.regularMatches, d.extraMatches);
-});

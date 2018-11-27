@@ -4,7 +4,6 @@ const pkg = require('../package.json');
 
 const userConfig = new ConfigStore(pkg.name);
 
-
 /**
  * TODO: Later make sure regulars are between 0 and 100 and extra between 0 and 10.
  * @param {Array} n
@@ -12,7 +11,6 @@ const userConfig = new ConfigStore(pkg.name);
 function numbersValid(n) {
   return n.length === 7;
 }
-
 
 /**
  * Check how many matches exist between arrays sent.
@@ -27,45 +25,43 @@ function getMatches(arr1, arr2) {
   return matches;
 }
 
-
 /**
  * Numbers are winners only if all of them match.
  */
 function checkNumbersForWin() {
   return getNumbersFromApi()
-  .then(winningNumbers => {
-    // Getting winning numbers resulted in invalid, cancelling...
-    if (!numbersValid(winningNumbers)) {
-      console.error('Problem with fetching lottery winning numbers...')
-      return false;
-    }
+    .then(winningNumbers => {
+      // Getting winning numbers resulted in invalid, cancelling...
+      if (!numbersValid(winningNumbers)) {
+        console.error('Problem with fetching lottery winning numbers...');
+        return false;
+      }
 
-    // If user numbers are not defined at this point, no action to do.
-    const myNumbers = userConfig.get('numbers');
-    let userNumbersDefined = false;
-    if (!myNumbers || !myNumbers.length) {
-      return { userNumbersDefined };
-    }
-    userNumbersDefined = true;
+      // If user numbers are not defined at this point, no action to do.
+      const myNumbers = userConfig.get('numbers');
+      let userNumbersDefined = false;
+      if (!myNumbers || !myNumbers.length) {
+        return { userNumbersDefined };
+      }
+      userNumbersDefined = true;
 
-    const regularMatches = getMatches(myNumbers.slice(0, 5), winningNumbers.slice(0, 5));
-    const extraMatches = getMatches(myNumbers.slice(5, 7), winningNumbers.slice(5, 7));
+      const regularMatches = getMatches(myNumbers.slice(0, 5), winningNumbers.slice(0, 5));
+      const extraMatches = getMatches(myNumbers.slice(5, 7), winningNumbers.slice(5, 7));
 
-    // To win at least something you have to have some of the following: 2+1, 1+2, 3+0.
-    const someWin = (regularMatches + extraMatches) >= 3;
-    // Hitting all numbers wins the jackpot!
-    const bigWin = regularMatches === 5 && extraMatches === 2;
+      // To win at least something you have to have some of the following: 2+1, 1+2, 3+0.
+      const someWin = (regularMatches + extraMatches) >= 3;
+      // Hitting all numbers wins the jackpot!
+      const bigWin = regularMatches === 5 && extraMatches === 2;
 
-    return {
-      regularMatches,
-      extraMatches,
-      someWin,
-      bigWin,
-      userNumbersDefined
-    };
-  });
+      return {
+        regularMatches,
+        extraMatches,
+        someWin,
+        bigWin,
+        userNumbersDefined
+      };
+    });
 }
-
 
 /**
  * Save user selected numbers to config for later usage.
@@ -74,6 +70,5 @@ function checkNumbersForWin() {
 function saveUserNumbers(numbers) {
   userConfig.set({ numbers });
 }
-
 
 module.exports = { checkNumbersForWin, saveUserNumbers, numbersValid };
