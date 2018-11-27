@@ -4,7 +4,8 @@
   "description": "Check were your numbers a winner",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "publish": "np --yolo"
   },
   "repository": {
     "type": "git",
