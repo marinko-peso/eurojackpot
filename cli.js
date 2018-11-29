@@ -36,6 +36,7 @@ if (cli.flags.numbers) {
   const userNumbers = numbersString.split(',').map(x => parseInt(x));
   if (!numbersValid(userNumbers)) {
     console.log('Your numbers are INVALID, please enter all 7 numbers, extras last, separated by comma: 1,2,3,4,5,6,7');
+    console.log('First five need to be in range [1-50], and last two in range [1-10]')
   } else {
     saveUserNumbers(userNumbers);
     console.log('Number succcessfully saved. Check you winnings by running: eurojackpot');

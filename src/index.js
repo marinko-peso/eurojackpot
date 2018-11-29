@@ -17,13 +17,13 @@ function numbersValid(n) {
   const regularNumbers = n.slice(0, 5);
   const extraNumbers = n.slice(5, 7);
   let checkStatus = true;
-  // Regular numbers have to be between in range [1:50]
+  // Regular numbers have to be between in range [1-50]
   regularNumbers.forEach(it => {
     if (!Number.isInteger(it) || it < 1 || it > 50) {
       checkStatus = false;
     }
   });
-  // Extra numbers have to be between in range [1:10]
+  // Extra numbers have to be between in range [1-10]
   extraNumbers.forEach(it => {
     if (!Number.isInteger(it) || it < 1 || it > 10) {
       checkStatus = false;
