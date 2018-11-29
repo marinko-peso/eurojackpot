@@ -2,6 +2,7 @@
 'use strict';
 
 const meow = require('meow');
+const ora = require('ora');
 const { checkNumbersForWin, saveUserNumbers, numbersValid } = require('./');
 
 /**
@@ -46,7 +47,10 @@ if (cli.flags.numbers) {
    * Check did user win with his stored numbers.
    * First we need to make sure did he store any numbers and if not tell him to specify.
    */
+  const spinner = ora('Fetching the results...').start();
   checkNumbersForWin().then(d => {
+    spinner.succeed('Results fetched!');
+
     if (!d.userNumbersDefined) {
       console.log('Please first save your numbers to check against. Use `eurojackpot --help` for more information.');
       return;
